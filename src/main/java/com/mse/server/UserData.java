@@ -1,5 +1,7 @@
 package com.mse.server;
 
+import java.util.List;
+
 //import java.util.ArrayList;
 
 import jakarta.persistence.*;
@@ -18,8 +20,8 @@ public class UserData {
 	private String nickname;
 	private int money;
 	
-//	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-//	private ArrayList<DungeonMap> maps;
+	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private List<DungeonMap> maps;
 	
 	public UserData() { }
 
@@ -29,6 +31,7 @@ public class UserData {
 		this.loginPw = loginPw;
 		this.nickname = nickname;
 		this.money = 0;
+//		this.maps = new ArrayList<DungeonMap>();
 	}
 
 	public String getLoginId() {
@@ -71,4 +74,18 @@ public class UserData {
 		this.money += money;
 		return this.money;
 	}
+
+	public List<DungeonMap> getMaps() {
+		return maps;
+	}
+
+	public void setMaps(List<DungeonMap> maps) {
+		this.maps = maps;
+	}
+	
+	
+	
+//	public void addMap(DungeonMap dm) {
+//		maps.add(dm);
+//	}
 }

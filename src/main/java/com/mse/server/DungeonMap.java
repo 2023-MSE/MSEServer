@@ -1,6 +1,6 @@
 package com.mse.server;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -14,12 +14,16 @@ public class DungeonMap {
 	@Column(name="created_time")
 	private String createdTime;
 	
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
+	@JoinColumn(name="owner_id")
+	private UserData owner;
+	
 	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	private ArrayList<Stage> stages;
+	private List<Stage> stages;
 	
 	public DungeonMap() { }
 
-	public DungeonMap(String name, String createdTime, ArrayList<Stage> stages) {
+	public DungeonMap(String name, String createdTime, List<Stage> stages) {
 		super();
 		this.name = name;
 		this.createdTime = createdTime;
@@ -46,7 +50,7 @@ public class DungeonMap {
 		return id;
 	}
 
-	public ArrayList<Stage> getStages() {
+	public List<Stage> getStages() {
 		return stages;
 	}
 }

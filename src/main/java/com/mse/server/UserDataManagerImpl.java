@@ -14,16 +14,16 @@ public class UserDataManagerImpl implements UserDataManager {
 		UserData u = repo.findByLoginId(loginId);
 		if(repo.existsByLoginId(loginId)) {
 			if(u.getLoginPw() == loginPw) {
-				// 올바른 id/pw가 입력된 경우
+				// Correct id/password
 				System.out.println("Login Success.");
 				return u.getId();
 			} else {
-				// pw가 틀린 경우
+				// Wrong password
 				System.out.println("Wrong Password.");
 				return (long) -2;
 			}
 		} else {
-			// id가 틀린 경우
+			// Wrong id
 			System.out.println("Wrong Id.");
 			return (long) -1;
 		}

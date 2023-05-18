@@ -1,16 +1,24 @@
+DROP TABLE IF EXISTS userdata;
+
 create table userdata (
 	id identity,
 	login_id varchar(20) not null,
 	login_pw varchar(20) not null,
 	nickname varchar(20) not null,
-	money int not null
+	money int not null,
+	FOREIGN KEY(maps) REFERENCES dungeonmap(id)
 );
 
+DROP TABLE IF EXISTS dungeonmap;
+
 create table dungeonmap (
+	id identity,
 	name varchar(20) not null,
-	created_time varchar(20) not null
-	
+	created_time varchar(20) not null,
+	FOREIGN KEY(owner_id) REFERENCES userdata(id)
 );
+
+DROP TABLE IF EXISTS stage;
 
 create table stage (
 	next_stage long,
