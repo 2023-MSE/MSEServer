@@ -1,6 +1,9 @@
 package com.mse.server;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 //import java.util.ArrayList;
 
@@ -21,6 +24,7 @@ public class UserData {
 	private int money;
 	
 	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@JsonIgnoreProperties({"owner"})
 	private List<DungeonMap> maps;
 	
 	public UserData() { }
@@ -31,7 +35,7 @@ public class UserData {
 		this.loginPw = loginPw;
 		this.nickname = nickname;
 		this.money = 0;
-//		this.maps = new ArrayList<DungeonMap>();
+		this.maps = new ArrayList<DungeonMap>();
 	}
 
 	public String getLoginId() {
@@ -81,11 +85,19 @@ public class UserData {
 
 	public void setMaps(List<DungeonMap> maps) {
 		this.maps = maps;
+	}	
+	
+	public void addMap(DungeonMap dm) {
+		maps.add(dm);
 	}
 	
-	
-	
-//	public void addMap(DungeonMap dm) {
-//		maps.add(dm);
-//	}
+	public void updateMap(DungeonMap dm) {
+		maps.set(dm.getId().intValue(), dm);
+	}
+
+	@Override
+	public String toString() {
+		return "UserData [id=" + id + ", loginId=" + loginId + ", loginPw=" + loginPw + ", nickname=" + nickname
+				+ ", money=" + money + ", maps=" + maps + "]";
+	}
 }

@@ -16,8 +16,8 @@ public class Stage {
 	private String specificTypeInfo;
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
-	@JoinColumn(name="owner_id")
-	private DungeonMap owner;
+	@JoinColumn(name="mowner_id")
+	private DungeonMap mowner;
 	
 	public Stage() { }
 

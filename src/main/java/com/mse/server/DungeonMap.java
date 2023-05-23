@@ -1,5 +1,6 @@
 package com.mse.server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -18,7 +19,9 @@ public class DungeonMap {
 	@JoinColumn(name="owner_id")
 	private UserData owner;
 	
-	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private Long userId;
+	
+	@OneToMany(mappedBy="mowner", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Stage> stages;
 	
 	public DungeonMap() { }
@@ -27,8 +30,36 @@ public class DungeonMap {
 		super();
 		this.name = name;
 		this.createdTime = createdTime;
+		this.stages = new ArrayList<Stage>();
+	}
+	
+	public DungeonMap(String name, String createdTime, List<Stage> stages, Long userId) {
+		super();
+		this.name = name;
+		this.createdTime = createdTime;
+		this.stages = new ArrayList<Stage>();
+		this.userId = userId;
+	}
+	
+	public DungeonMap(Long id, String name, String createdTime, List<Stage> stages, Long userId) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.createdTime = createdTime;
+		this.stages = new ArrayList<Stage>();
+		this.userId = userId;
+	}
+	
+	public DungeonMap(Long id, String name, String createdTime, UserData owner, List<Stage> stages, Long userId) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.createdTime = createdTime;
+		this.owner = owner;
+		this.userId = userId;
 		this.stages = stages;
 	}
+
 
 	public String getName() {
 		return name;
@@ -50,7 +81,36 @@ public class DungeonMap {
 		return id;
 	}
 
+	public void setStages(List<Stage> stages) {
+		this.stages = stages;
+	}
+
 	public List<Stage> getStages() {
 		return stages;
 	}
+
+	public UserData getOwner() {
+		return owner;
+	}
+
+	public void setOwner(UserData owner) {
+		this.owner = owner;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	@Override
+	public String toString() {
+		return "DungeonMap [id=" + id + ", name=" + name + ", createdTime=" + createdTime + ", owner=" + owner.getId()
+				+ ", userId=" + userId + ", stages=" + stages + "]";
+	}
+
+	
+	
 }
