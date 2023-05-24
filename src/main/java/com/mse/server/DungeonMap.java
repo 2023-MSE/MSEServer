@@ -14,12 +14,15 @@ public class DungeonMap {
 	private String name;
 	@Column(name="created_time")
 	private String createdTime;
+	private boolean isDeployed;
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="owner_id")
+//	@SerializedName("ownerId")
 	private UserData owner;
 	
-	private Long userId;
+	@JoinColumn(name="user_id")
+	private long userId;
 	
 	@OneToMany(mappedBy="mowner", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<Stage> stages;
@@ -41,7 +44,7 @@ public class DungeonMap {
 		this.userId = userId;
 	}
 	
-	public DungeonMap(Long id, String name, String createdTime, List<Stage> stages, Long userId) {
+	public DungeonMap(Long id, String name, String createdTime, boolean isDeployed, List<Stage> stages, Long userId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -107,10 +110,21 @@ public class DungeonMap {
 
 	@Override
 	public String toString() {
-		return "DungeonMap [id=" + id + ", name=" + name + ", createdTime=" + createdTime + ", owner=" + owner.getId()
+		return "DungeonMap [id=" + id + ", name=" + name + ", deployed=" + isDeployed + ", createdTime=" + createdTime + ", ownerId=" + owner.getId()
 				+ ", userId=" + userId + ", stages=" + stages + "]";
 	}
 
-	
+	public boolean getDeployed() {
+		return isDeployed;
+	}
+
+	public void setDeployed(boolean isDeployed) {
+		this.isDeployed = isDeployed;
+	}
+
+	public boolean changeDeployed() {
+		isDeployed = !isDeployed;
+		return isDeployed;
+	}
 	
 }

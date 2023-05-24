@@ -1,5 +1,6 @@
 package com.mse.server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -8,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @RestController
 @RequestMapping("/login")
@@ -15,12 +17,16 @@ public class UserDataController {
 	@Autowired
 	private UserDataRepository repo;
 	
+	@Autowired
+	private DungeonMapRepository mapRepo;
+	
 	@GetMapping(value="/find-all", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<UserData> findAll(){
 		return repo.findAll();
 	}
 	
-	// Sign in
+	/* Sign in */
+	// authentication
 	@PostMapping(value="/authentication", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public String authentication(@RequestBody String json) {
 		JSONObject jObject = new JSONObject(json);
@@ -29,16 +35,21 @@ public class UserDataController {
 		UserData u = repo.findByLoginId(loginId);
 		jObject = new JSONObject();
 		if(repo.existsByLoginId(loginId)) {
-			if(u.getLoginPw().compareTo(loginPw) == 0)
+			if(u.getLoginPw().compareTo(loginPw) == 0) {
 				jObject.put("id", u.getId());
-			else
+				System.out.println("Login Success.");
+			} else {
 				jObject.put("id", (long) -2);
-		} else
+				System.out.println("Wrong Password.");
+			}
+		} else {
 			jObject.put("id", (long) -1);
-		
+			System.out.println("Wrong Id.");
+		}
 		return jObject.toString();
 	}
 	
+	// post user info
 	@PostMapping(value="/post-user", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public String postUser(@RequestBody String json) {
 		Gson gson = new Gson();
@@ -50,9 +61,21 @@ public class UserDataController {
 			return gson.toJson(null);
 	}
 	
-//	@PostMapping(value="/postDDL")
+	@PostMapping(value="/post-ddl", consumes=MediaType.APPLICATION_JSON_VALUE)
+	public String deployedDungeonList() {
+		Gson gson = new GsonBuilder().create();
+		List<DungeonMap> maps = mapRepo.findByIsDeployed(true);
+		List<DeployedMap> sms = new ArrayList<DeployedMap>();
+		for(DungeonMap map : maps) {
+			DeployedMap sm = new DeployedMap(map.getId(), map.getName(), map.getCreatedTime(), map.getUserId());
+			sms.add(sm);
+		}
+		String ddl = gson.toJson(sms);
+		return ddl;
+	}
 
-	// Sign up
+	/* Sign up */
+	// double check
 	@PostMapping(value="/double-check", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public String doubleCheck(@RequestBody String json) {
 		JSONObject jObject = new JSONObject(json);
@@ -66,6 +89,7 @@ public class UserDataController {
 		return jObject.toString();
 	}
 	
+	// sign up
 	@PostMapping(value="/signup", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public String signUp(@RequestBody String json) {
 		JSONObject jObject = new JSONObject(json);

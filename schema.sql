@@ -15,7 +15,8 @@ create table dungeonmap (
 	id identity,
 	name varchar(20) not null,
 	created_time varchar(20) not null,
-	FOREIGN KEY(stages) REFERENCES stage(id)
+	userId varchar(20) not null,
+	FOREIGN KEY(stages) REFERENCES stage(id),
 	FOREIGN KEY(owner_id) REFERENCES userdata(id)
 );
 

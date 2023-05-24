@@ -28,6 +28,15 @@ public class Stage {
 		this.specificTypeInfo = specificTypeInfo;
 	}
 
+	public Stage(Long id, long nextStage, int stageType, String specificTypeInfo, DungeonMap mowner) {
+		super();
+		this.id = id;
+		this.nextStage = nextStage;
+		this.stageType = stageType;
+		this.specificTypeInfo = specificTypeInfo;
+		this.mowner = mowner;
+	}
+
 	public long getNextStage() {
 		return nextStage;
 	}
@@ -50,5 +59,27 @@ public class Stage {
 
 	public void setSpecificTypeInfo(String specificTypeInfo) {
 		this.specificTypeInfo = specificTypeInfo;
+	}
+	
+	public DungeonMap getMowner() {
+		return mowner;
+	}
+
+	public void setMowner(DungeonMap mowner) {
+		this.mowner = mowner;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Stage [id=" + id + ", nextStage=" + nextStage + ", stageType=" + stageType + ", specificTypeInfo="
+				+ specificTypeInfo + ", mowner=" + mowner.getId() + "]";
 	}
 }
