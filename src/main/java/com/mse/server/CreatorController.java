@@ -70,7 +70,7 @@ public class CreatorController {
 	public String selectMap(@RequestBody String json) {
 		Gson gson = new GsonBuilder().create();
 		JSONObject jObject = new JSONObject(json);
-		Long id = jObject.getLong("id");
+		Long id = jObject.getLong("mapId");
 		if(!mapRepo.existsById(id)) {
 			System.out.println("No Map.");
 			return gson.toJson(null);

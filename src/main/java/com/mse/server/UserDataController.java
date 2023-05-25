@@ -86,7 +86,7 @@ public class UserDataController {
 	public String dungeonList(@RequestBody String json) {
 		Gson gson = new GsonBuilder().create();
 		JSONObject jObject = new JSONObject(json);
-		Long id = jObject.getLong("mapId");
+		Long id = jObject.getLong("id");
 		List<DungeonMap> maps = mapRepo.findByUserId(id);
 		List<CreatorMap> cms = new ArrayList<CreatorMap>();
 		for(DungeonMap map : maps) {
