@@ -44,7 +44,7 @@ public class DungeonMap {
 		this.userId = userId;
 	}
 	
-	public DungeonMap(Long id, String name, String createdTime, boolean isDeployed, List<Stage> stages, Long userId) {
+	public DungeonMap(Long id, String name, String createdTime, List<Stage> stages, Long userId) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -53,11 +53,12 @@ public class DungeonMap {
 		this.userId = userId;
 	}
 	
-	public DungeonMap(Long id, String name, String createdTime, UserData owner, List<Stage> stages, Long userId) {
+	public DungeonMap(Long id, String name, String createdTime, boolean isDeployed, UserData owner, List<Stage> stages, Long userId) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.createdTime = createdTime;
+		this.isDeployed = isDeployed;
 		this.owner = owner;
 		this.userId = userId;
 		this.stages = stages;

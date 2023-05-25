@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DungeonMapRepository extends JpaRepository<DungeonMap, Long> {
 	List<DungeonMap> findByIsDeployed(boolean t);
+	
+	List<DungeonMap> findByUserId(Long id);
 }

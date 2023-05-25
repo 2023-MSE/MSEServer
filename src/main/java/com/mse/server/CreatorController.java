@@ -71,18 +71,17 @@ public class CreatorController {
 		Gson gson = new GsonBuilder().create();
 		JSONObject jObject = new JSONObject(json);
 		Long id = jObject.getLong("id");
+		if(!mapRepo.existsById(id)) {
+			System.out.println("No Map.");
+			return gson.toJson(null);
+		}
 		DungeonMap m = mapRepo.findById(id).get();
 		List<Stage> stgs = stageRepo.findByMownerId(id); 
 		for(Stage stg : m.getStages()) {
 			stg.setMowner(new DungeonMap());
-			stgs.add(stg);
 		}
 		String s = gson.toJson(stgs);
-		if(mapRepo.existsById(id)) {
-			return s;
-		}
-		else
-			return gson.toJson(null);
+		return s;
 	}
 	
 	// editMap
@@ -99,16 +98,17 @@ public class CreatorController {
 		}
 		UserData u = userRepo.findById(m.getUserId()).get();
 		List<Stage> stgs = stageRepo.findByMownerId(m.getId());
-		m = mapRepo.getById(m.getId());
-		m.setOwner(u);
+		DungeonMap mm = mapRepo.getById(m.getId());
+		mm = new DungeonMap(m.getId(), m.getName(), m.getCreatedTime(), mm.getDeployed(), m.getOwner(), m.getStages(), m.getUserId());
+		mm.setOwner(u);
 		for(Stage s : stgs) {
 			Stage stg = stageRepo.getById(s.getId());
 			stg = s;
 			stgs.set(s.getId().intValue()-1, stg);
 		}
-		m.setStages(stgs);
+		mm.setStages(stgs);
 		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();		
-		maps.set(m.getId().intValue()-1, m);
+		maps.set(m.getId().intValue()-1, mm);
 		u.setMaps(maps);
 		userRepo.save(u);
 		System.out.println(userRepo.findById(u.getId()).get().getMaps());
@@ -160,10 +160,6 @@ public class CreatorController {
 		Long userId = jObject.getLong("userId");
 		Long mapId = jObject.getLong("mapId");
 		jObject = new JSONObject();
-		UserData u = userRepo.findById(userId).get();
-		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();
-		DungeonMap m = mapRepo.findById(mapId).get();
-		int idx = maps.indexOf(m);
 		if(!userRepo.existsById(userId)) {
 			System.out.println("No User.");
 			jObject.put("success", false);
@@ -174,6 +170,16 @@ public class CreatorController {
 			jObject.put("success", false);
 			return jObject.toString();
 		}
+		if(mapRepo.findById(mapId).get().getUserId() != userId) {
+			System.out.println("No Result.");
+			jObject.put("success", false);
+			return jObject.toString();
+		}
+		UserData u = userRepo.findById(userId).get();
+		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();
+		DungeonMap m = mapRepo.findById(mapId).get();
+		System.out.println("maps: " + maps.size() + ", map: " + maps.indexOf(m));
+		int idx = maps.indexOf(m);
 		m.changeDeployed();
 		maps.set(idx, m);
 		u.setMaps(maps);

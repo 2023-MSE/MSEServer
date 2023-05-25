@@ -22,7 +22,14 @@ public class UserDataController {
 	
 	@GetMapping(value="/find-all", produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<UserData> findAll(){
-		return repo.findAll();
+		List<UserData> datas = repo.findAll();
+		for(UserData u : datas) {
+			for (DungeonMap dm : u.getMaps()) {
+				dm.setOwner(new UserData());
+				dm.setStages(null);
+			}
+		}
+		return datas;
 	}
 	
 	/* Sign in */
@@ -55,9 +62,10 @@ public class UserDataController {
 		Gson gson = new Gson();
 		JSONObject jObject = new JSONObject(json);
 		Long id = jObject.getLong("id");
-		if(repo.existsById(id))
+		if(repo.existsById(id)) {
+			repo.findById(id).get().setMaps(null);
 			return gson.toJson(repo.findById(id).get());
-		else
+		} else
 			return gson.toJson(null);
 	}
 	
@@ -65,13 +73,28 @@ public class UserDataController {
 	public String deployedDungeonList() {
 		Gson gson = new GsonBuilder().create();
 		List<DungeonMap> maps = mapRepo.findByIsDeployed(true);
-		List<DeployedMap> sms = new ArrayList<DeployedMap>();
+		List<DeployedMap> dms = new ArrayList<DeployedMap>();
 		for(DungeonMap map : maps) {
-			DeployedMap sm = new DeployedMap(map.getId(), map.getName(), map.getCreatedTime(), map.getUserId());
-			sms.add(sm);
+			DeployedMap dm = new DeployedMap(map.getId(), map.getName(), map.getCreatedTime(), map.getUserId());
+			dms.add(dm);
 		}
-		String ddl = gson.toJson(sms);
+		String ddl = gson.toJson(dms);
 		return ddl;
+	}
+	
+	@PostMapping(value="/post-dungeon-list", consumes=MediaType.APPLICATION_JSON_VALUE)
+	public String dungeonList(@RequestBody String json) {
+		Gson gson = new GsonBuilder().create();
+		JSONObject jObject = new JSONObject(json);
+		Long id = jObject.getLong("id");
+		List<DungeonMap> maps = mapRepo.findByUserId(id);
+		List<CreatorMap> cms = new ArrayList<CreatorMap>();
+		for(DungeonMap map : maps) {
+			CreatorMap cm = new CreatorMap(map.getId(), map.getName(), map.getCreatedTime());
+			cms.add(cm);
+		}
+		String dl = gson.toJson(cms);
+		return dl;
 	}
 
 	/* Sign up */
