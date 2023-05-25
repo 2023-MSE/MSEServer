@@ -99,7 +99,7 @@ public class CreatorController {
 		UserData u = userRepo.findById(m.getUserId()).get();
 		List<Stage> stgs = stageRepo.findByMownerId(m.getId());
 		DungeonMap mm = mapRepo.getById(m.getId());
-		mm = new DungeonMap(m.getId(), m.getName(), m.getCreatedTime(), mm.getDeployed(), m.getOwner(), m.getStages(), m.getUserId());
+		mm = new DungeonMap(m.getId(), m.getName(), m.getCreatedTime(), m.getDeployed(), m.getOwner(), m.getStages(), m.getUserId());
 		mm.setOwner(u);
 		for(Stage s : stgs) {
 			Stage stg = stageRepo.getById(s.getId());
