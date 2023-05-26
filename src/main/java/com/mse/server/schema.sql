@@ -26,6 +26,8 @@ create table stage (
 	id identity,
 	next_stage long,
 	stage_type int not null,
-	specific_type_info varchar(20) not null
+	specific_type_info varchar(20) not null,
+	music_name varchar(20) not null,
+	music_bytes_data varchar(20) not null,
 	FOREIGN KEY(mowner_id) REFERENCES dungeonmap(id)
 );

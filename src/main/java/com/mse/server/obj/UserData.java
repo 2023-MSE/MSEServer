@@ -1,4 +1,4 @@
-package com.mse.server;
+package com.mse.server.obj;
 
 import java.util.ArrayList;
 import java.util.List;

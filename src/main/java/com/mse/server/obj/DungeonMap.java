@@ -1,7 +1,9 @@
-package com.mse.server;
+package com.mse.server.obj;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.annotations.Expose;
 
 import jakarta.persistence.*;
 
@@ -10,21 +12,26 @@ import jakarta.persistence.*;
 public class DungeonMap {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Expose
 	private Long id;
+	@Expose
 	private String name;
 	@Column(name="created_time")
+	@Expose
 	private String createdTime;
+	@Expose
 	private boolean isDeployed;
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="owner_id")
-//	@SerializedName("ownerId")
 	private UserData owner;
 	
 	@JoinColumn(name="user_id")
+	@Expose
 	private long userId;
 	
 	@OneToMany(mappedBy="mowner", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@Expose
 	private List<Stage> stages;
 	
 	public DungeonMap() { }
@@ -111,7 +118,7 @@ public class DungeonMap {
 
 	@Override
 	public String toString() {
-		return "DungeonMap [id=" + id + ", name=" + name + ", deployed=" + isDeployed + ", createdTime=" + createdTime + ", ownerId=" + owner.getId()
+		return "DungeonMap [id=" + id + ", name=" + name + ", deployed=" + isDeployed + ", createdTime=" + createdTime
 				+ ", userId=" + userId + ", stages=" + stages + "]";
 	}
 

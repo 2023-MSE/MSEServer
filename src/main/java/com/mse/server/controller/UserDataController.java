@@ -1,4 +1,4 @@
-package com.mse.server;
+package com.mse.server.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mse.server.adapter.CreatorMap;
+import com.mse.server.adapter.DeployedMap;
+import com.mse.server.obj.DungeonMap;
+import com.mse.server.obj.UserData;
+import com.mse.server.repository.DungeonMapRepository;
+import com.mse.server.repository.UserDataRepository;
 
 @RestController
 @RequestMapping("/login")
@@ -69,20 +75,22 @@ public class UserDataController {
 			return gson.toJson(null);
 	}
 	
-	@PostMapping(value="/post-ddl", consumes=MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/get-player-dungeon-list", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public String deployedDungeonList() {
 		Gson gson = new GsonBuilder().create();
 		List<DungeonMap> maps = mapRepo.findByIsDeployed(true);
 		List<DeployedMap> dms = new ArrayList<DeployedMap>();
 		for(DungeonMap map : maps) {
-			DeployedMap dm = new DeployedMap(map.getId(), map.getName(), map.getCreatedTime(), map.getUserId());
-			dms.add(dm);
+			if(map.getDeployed() == true) {
+				DeployedMap dm = new DeployedMap(map.getId(), map.getName(), map.getCreatedTime(), map.getUserId());
+				dms.add(dm);
+			}
 		}
 		String ddl = gson.toJson(dms);
 		return ddl;
 	}
 	
-	@PostMapping(value="/post-dungeon-list", consumes=MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value="/get-creator-dungeon-list", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public String dungeonList(@RequestBody String json) {
 		Gson gson = new GsonBuilder().create();
 		JSONObject jObject = new JSONObject(json);

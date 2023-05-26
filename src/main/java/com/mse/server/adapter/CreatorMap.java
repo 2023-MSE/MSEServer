@@ -1,17 +1,15 @@
-package com.mse.server;
+package com.mse.server.adapter;
 
-public class DeployedMap {
+public class CreatorMap {
 	private Long id;
 	private String name;
 	private String createdTime;
-	private long userId;
 	
-	public DeployedMap(Long id, String name, String createdTime, long userId) {
+	public CreatorMap(Long id, String name, String createdTime) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.createdTime = createdTime;
-		this.userId = userId;
 	}
 
 	public Long getId() {
@@ -38,16 +36,8 @@ public class DeployedMap {
 		this.createdTime = createdTime;
 	}
 
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
-
 	@Override
 	public String toString() {
-		return "SendMap [id=" + id + ", name=" + name + ", createdTime=" + createdTime + ", userId=" + userId + "]";
+		return "SendMap [id=" + id + ", name=" + name + ", createdTime=" + createdTime +  "]";
 	}
 }

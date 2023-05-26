@@ -3,6 +3,9 @@ package com.mse.server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mse.server.obj.UserData;
+import com.mse.server.repository.UserDataRepository;
+
 @Service
 public class UserDataManagerImpl implements UserDataManager {
 
