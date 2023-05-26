@@ -1,5 +1,7 @@
 package com.mse.server;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -15,8 +17,20 @@ public class Stage {
 	@Column(name="specific_type_info")
 	private String specificTypeInfo;
 	
+	// List<usigned int> elements
+	
+	
+	// musicName
+	
+	
+	// musicBytesData
+	
+	
+	// 
+	
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="mowner_id")
+	@JsonIgnore
 	private DungeonMap mowner;
 	
 	public Stage() { }
