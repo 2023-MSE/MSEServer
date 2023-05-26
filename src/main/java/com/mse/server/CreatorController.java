@@ -136,6 +136,11 @@ public class CreatorController {
 			jObject.put("success", false);
 			return jObject.toString();
 		}
+		if(mapRepo.findById(mapId).get().getUserId() != userId) {
+			System.out.println("No Result.");
+			jObject.put("success", false);
+			return jObject.toString();
+		}
 		UserData u = userRepo.findById(userId).get();
 		DungeonMap m = mapRepo.findById(mapId).get();
 		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();
