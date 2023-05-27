@@ -27,15 +27,10 @@ public class UserDataController {
 	private DungeonMapRepository mapRepo;
 	
 	@GetMapping(value="/find-all", produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<UserData> findAll(){
+	public String findAll(){
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		List<UserData> datas = repo.findAll();
-		for(UserData u : datas) {
-			for (DungeonMap dm : u.getMaps()) {
-				dm.setOwner(new UserData());
-				dm.setStages(null);
-			}
-		}
-		return datas;
+		return gson.toJson(datas);
 	}
 	
 	/* Sign in */
@@ -65,7 +60,7 @@ public class UserDataController {
 	// post user info
 	@PostMapping(value="/post-user", consumes=MediaType.APPLICATION_JSON_VALUE)
 	public String postUser(@RequestBody String json) {
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 		JSONObject jObject = new JSONObject(json);
 		Long id = jObject.getLong("id");
 		if(repo.existsById(id)) {

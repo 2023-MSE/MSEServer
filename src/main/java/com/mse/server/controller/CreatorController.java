@@ -38,9 +38,7 @@ public class CreatorController {
 	public String createMap(@RequestBody String json) {
 		Gson gson = new Gson();
 		JSONObject jObject = new JSONObject();
-		System.out.println("json: " + json);
 		DungeonMap m = gson.fromJson(json, DungeonMap.class);
-		System.out.println("m: " + m);
 		if(!userRepo.existsById(m.getUserId())) {
 			System.out.println("No User.");
 			jObject.put("success", false);
@@ -48,6 +46,7 @@ public class CreatorController {
 		}
 		DungeonMap map = new DungeonMap(m.getName(), m.getCreatedTime(), m.getStages(), m.getUserId());
 		map = mapRepo.save(map);
+//		System.out.println(map.getId());
 		UserData u = userRepo.findById(map.getUserId()).get();
 		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();
 		List<Stage> stgs = mapRepo.findById(map.getId()).get().getStages();
@@ -62,10 +61,11 @@ public class CreatorController {
 		maps.add(map);
 		u.setMaps(maps);
 		userRepo.save(u);
-		System.out.println(userRepo.findById(u.getId()).get().getMaps());
-		System.out.println(mapRepo.findAll());
-		System.out.println(mapRepo.findById(map.getId()).get().getStages());
-		System.out.println(stageRepo.findAll());
+//		System.out.println(userRepo.findById(u.getId()).get());
+//		System.out.println(userRepo.findById(u.getId()).get().getMaps());
+//		System.out.println(mapRepo.findAll());
+//		System.out.println(mapRepo.findById(map.getId()).get().getStages());
+//		System.out.println(stageRepo.findAll());
 		jObject.put("success", true);
 		return jObject.toString();
 	}
@@ -85,7 +85,7 @@ public class CreatorController {
 		for(Stage stg: m.getStages()) {
 			stgs.add(stg);
 		}
-		System.out.println("stgs: " + stgs);
+//		System.out.println("stgs: " + stgs);
 		String s = gson.toJson(stgs);
 		return s;
 	}
@@ -102,16 +102,14 @@ public class CreatorController {
 			jObject.put("success", false);
 			return jObject.toString();
 		}
-		System.out.println("m: " + m);
 		UserData u = userRepo.findById(m.getUserId()).get();
 		List<Stage> stgs = new  ArrayList<Stage>();
 		for(Stage stg: m.getStages()) {
+			stg.setMapId(m.getId());
 			stgs.add(stg);
 		}
-		System.out.println(stgs);
 		DungeonMap mm = mapRepo.getById(m.getId());
 		mm = new DungeonMap(m.getId(), m.getName(), m.getCreatedTime(), m.getDeployed(), m.getOwner(), m.getStages(), m.getUserId());
-//		mm.setOwner(u);
 		for(Stage s : stgs) {
 			Stage stg = stageRepo.getById(s.getId());
 			stg = s;
@@ -122,10 +120,11 @@ public class CreatorController {
 		maps.set(m.getId().intValue()-1, mm);
 		u.setMaps(maps);
 		userRepo.save(u);
-		System.out.println(userRepo.findById(u.getId()).get().getMaps());
-		System.out.println(mapRepo.findAll());
-		System.out.println(mapRepo.findById(m.getId()).get().getStages());
-		System.out.println(stageRepo.findAll());
+//		System.out.println(userRepo.findById(u.getId()).get());
+//		System.out.println(userRepo.findById(u.getId()).get().getMaps());
+//		System.out.println(mapRepo.findAll());
+//		System.out.println(mapRepo.findById(m.getId()).get().getStages());
+//		System.out.println(stageRepo.findAll());
 		jObject.put("success", true);
 		return jObject.toString();
 	}
@@ -156,15 +155,16 @@ public class CreatorController {
 		DungeonMap m = mapRepo.findById(mapId).get();
 		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();
 		List<Stage> stgs = stageRepo.findByMapId(m.getId());
+		System.out.println(maps);
+		System.out.println(stgs);
 		for(Stage stg : stgs) {
-			stgs.remove(stg);
 			stageRepo.delete(stg);
 		}
 		maps.remove(m);
 		mapRepo.delete(m);
-		System.out.println(userRepo.findById(u.getId()).get().getMaps());
-		System.out.println(mapRepo.findAll());
-		System.out.println(stageRepo.findAll());
+//		System.out.println(userRepo.findById(u.getId()).get().getMaps());
+//		System.out.println(mapRepo.findAll());
+//		System.out.println(stageRepo.findAll());
 		jObject.put("success", true);
 		return jObject.toString();
 	}
@@ -194,7 +194,6 @@ public class CreatorController {
 		UserData u = userRepo.findById(userId).get();
 		List<DungeonMap> maps = mapRepo.findByUserId(u.getId());
 		DungeonMap m = mapRepo.findById(mapId).get();
-		System.out.println("maps: " + maps.size() + ", map: " + maps.indexOf(m) + ", map list: " + maps + ", m: " + m);
 		int idx = maps.indexOf(m);
 		m.changeDeployed();
 		List<Stage> stgs = new ArrayList<Stage>();
@@ -206,8 +205,8 @@ public class CreatorController {
 		u.setMaps(maps);
 		userRepo.save(u);
 		jObject.put("success", true);
-		System.out.println(userRepo.findById(u.getId()).get().getMaps());
-		System.out.println(mapRepo.findAll());
+//		System.out.println(userRepo.findById(u.getId()).get().getMaps());
+//		System.out.println(mapRepo.findAll());
 		return jObject.toString();
 	}
 }

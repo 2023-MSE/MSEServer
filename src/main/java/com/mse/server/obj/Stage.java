@@ -68,6 +68,7 @@ public class Stage {
 		this.musicName = musicName;
 		this.musicBytesData = musicBytesData;
 		this.elements = elements;
+		this.mapId = mapId;
 	}
 
 	public List<Long> getNextStage() {

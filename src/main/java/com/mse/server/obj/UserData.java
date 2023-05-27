@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.gson.annotations.Expose;
 
 //import java.util.ArrayList;
 
@@ -14,17 +15,22 @@ import jakarta.persistence.*;
 public class UserData {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Expose
 	private Long id;
 	@Column(name="login_id", unique=true)
+	@Expose
 	private String loginId;
 	@Column(name="login_pw")
 	private String loginPw;
 	@Column(unique=true)
+	@Expose
 	private String nickname;
+	@Expose
 	private int money;
 	
 	@OneToMany(mappedBy="owner", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JsonIgnoreProperties({"owner"})
+	@Expose
 	private List<DungeonMap> maps;
 	
 	public UserData() { }
