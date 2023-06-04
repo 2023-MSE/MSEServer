@@ -27,7 +27,7 @@ public class Stage {
 	private String musicName;
 	@Column(name="music_bytes_data")
 	@Expose
-	private String musicBytesData;
+	private byte[] musicBytesData;
 	@Expose
 	private List<Integer> elements;
 	@Column(name="map_id")
@@ -59,7 +59,7 @@ public class Stage {
 	
 
 	public Stage(Long id, List<Long> nextStage, int stageType, String specificTypeInfo, String musicName,
-			String musicBytesData, List<Integer> elements, long mapId) {
+			byte[] musicBytesData, List<Integer> elements, long mapId) {
 		super();
 		this.id = id;
 		this.nextStage = nextStage;
@@ -119,11 +119,11 @@ public class Stage {
 		this.musicName = musicName;
 	}
 
-	public String getMusicBytesData() {
+	public byte[] getMusicBytesData() {
 		return musicBytesData;
 	}
 
-	public void setMusicBytesData(String musicBytesData) {
+	public void setMusicBytesData(byte[] musicBytesData) {
 		this.musicBytesData = musicBytesData;
 	}
 
