@@ -14,6 +14,9 @@ public class DungeonMap {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Expose
 	private Long id;
+	@Column(name="node_editor_json_data")
+	@Expose
+	private String nodeEditorJsonData;
 	@Expose
 	private String name;
 	@Column(name="created_time")
@@ -60,7 +63,7 @@ public class DungeonMap {
 		this.userId = userId;
 	}
 	
-	public DungeonMap(Long id, String name, String createdTime, boolean isDeployed, UserData owner, List<Stage> stages, Long userId) {
+	public DungeonMap(Long id, String name, String createdTime, boolean isDeployed, UserData owner, List<Stage> stages, Long userId, String nodeEditorJsonData) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -69,8 +72,16 @@ public class DungeonMap {
 		this.owner = owner;
 		this.userId = userId;
 		this.stages = stages;
+		this.nodeEditorJsonData = nodeEditorJsonData;
 	}
 
+	public String getNodeEditorJsonData() {
+		return nodeEditorJsonData;
+	}
+
+	public void setNodeEditorJsonData(String nodeEditorJsonData) {
+		this.nodeEditorJsonData = nodeEditorJsonData;
+	}
 
 	public String getName() {
 		return name;

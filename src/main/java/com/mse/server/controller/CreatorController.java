@@ -51,7 +51,7 @@ public class CreatorController {
 		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();
 		List<Stage> stgs = mapRepo.findById(map.getId()).get().getStages();
 		for(Stage stg: m.getStages()) {
-			stg = new Stage(stg.getId(), stg.getNextStage(), stg.getStageType(), stg.getSpecificTypeInfo(), stg.getMusicName(), stg.getMusicBytesData(), stg.getElements(), map.getId());
+			stg = new Stage(stg.getId(), stg.getNextStage(), stg.getStageType(), stg.getSpecificTypeInfo(), stg.getLimitForElements(), stg.getMusicName(), stg.getMusicBytesData(), stg.getElements(), map.getId());
 			stg.setMowner(map);
 			stg = stageRepo.save(stg);
 			stgs.add(stg);
@@ -109,7 +109,7 @@ public class CreatorController {
 			stgs.add(stg);
 		}
 		DungeonMap mm = mapRepo.getById(m.getId());
-		mm = new DungeonMap(m.getId(), m.getName(), m.getCreatedTime(), m.getDeployed(), m.getOwner(), m.getStages(), m.getUserId());
+		mm = new DungeonMap(m.getId(), m.getName(), m.getCreatedTime(), m.getDeployed(), m.getOwner(), m.getStages(), m.getUserId(), m.getNodeEditorJsonData());
 		for(Stage s : stgs) {
 			Stage stg = stageRepo.getById(s.getId());
 			stg = s;

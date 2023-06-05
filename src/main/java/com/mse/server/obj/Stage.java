@@ -22,12 +22,15 @@ public class Stage {
 	@Column(name="specific_type_info")
 	@Expose
 	private String specificTypeInfo;
+	@Column(name="limit_for_elements")
+	@Expose
+	private short limitForElements;
 	@Column(name="music_name")
 	@Expose
 	private String musicName;
 	@Column(name="music_bytes_data")
 	@Expose
-	private String musicBytesData;
+	private byte[] musicBytesData;
 	@Expose
 	private List<Integer> elements;
 	@Column(name="map_id")
@@ -58,17 +61,26 @@ public class Stage {
 	
 	
 
-	public Stage(Long id, List<Long> nextStage, int stageType, String specificTypeInfo, String musicName,
-			String musicBytesData, List<Integer> elements, long mapId) {
+	public Stage(Long id, List<Long> nextStage, int stageType, String specificTypeInfo, short limitForElements, 
+			String musicName, byte[] musicBytesData, List<Integer> elements, long mapId) {
 		super();
 		this.id = id;
 		this.nextStage = nextStage;
 		this.stageType = stageType;
 		this.specificTypeInfo = specificTypeInfo;
+		this.limitForElements = limitForElements;
 		this.musicName = musicName;
 		this.musicBytesData = musicBytesData;
 		this.elements = elements;
 		this.mapId = mapId;
+	}
+	
+	public short getLimitForElements() {
+		return limitForElements;
+	}
+
+	public void setLimitForElements(short limitForElements) {
+		this.limitForElements = limitForElements;
 	}
 
 	public List<Long> getNextStage() {
@@ -119,11 +131,11 @@ public class Stage {
 		this.musicName = musicName;
 	}
 
-	public String getMusicBytesData() {
+	public byte[] getMusicBytesData() {
 		return musicBytesData;
 	}
 
-	public void setMusicBytesData(String musicBytesData) {
+	public void setMusicBytesData(byte[] musicBytesData) {
 		this.musicBytesData = musicBytesData;
 	}
 
