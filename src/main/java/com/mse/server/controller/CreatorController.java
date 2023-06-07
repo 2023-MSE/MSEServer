@@ -44,7 +44,7 @@ public class CreatorController {
 			jObject.put("success", false);
 			return jObject.toString();
 		}
-		DungeonMap map = new DungeonMap(m.getName(), m.getCreatedTime(), m.getStages(), m.getUserId());
+		DungeonMap map = new DungeonMap(m.getName(), m.getCreatedTime(), m.getStages(), m.getUserId(), m.getNodeEditorJsonData());
 		map = mapRepo.save(map);
 //		System.out.println(map.getId());
 		UserData u = userRepo.findById(map.getUserId()).get();

@@ -46,21 +46,23 @@ public class DungeonMap {
 		this.stages = new ArrayList<Stage>();
 	}
 	
-	public DungeonMap(String name, String createdTime, List<Stage> stages, Long userId) {
+	public DungeonMap(String name, String createdTime, List<Stage> stages, Long userId, String nodeEditorJsonData) {
 		super();
 		this.name = name;
 		this.createdTime = createdTime;
 		this.stages = new ArrayList<Stage>();
 		this.userId = userId;
+		this.nodeEditorJsonData = nodeEditorJsonData;
 	}
 	
-	public DungeonMap(Long id, String name, String createdTime, List<Stage> stages, Long userId) {
+	public DungeonMap(Long id, String name, String createdTime, List<Stage> stages, Long userId, String nodeEditorJsonData) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.createdTime = createdTime;
 		this.stages = new ArrayList<Stage>();
 		this.userId = userId;
+		this.nodeEditorJsonData = nodeEditorJsonData;
 	}
 	
 	public DungeonMap(Long id, String name, String createdTime, boolean isDeployed, UserData owner, List<Stage> stages, Long userId, String nodeEditorJsonData) {
