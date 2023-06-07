@@ -4,12 +4,22 @@ public class CreatorMap {
 	private Long id;
 	private String name;
 	private String createdTime;
+	private String nodeEditorJsonData;
 	
-	public CreatorMap(Long id, String name, String createdTime) {
+	public CreatorMap(Long id, String name, String createdTime, String nodeEditorJsonData) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.createdTime = createdTime;
+		this.nodeEditorJsonData = nodeEditorJsonData;
+	}
+	
+	public String getNodeEditorJsonData() {
+		return nodeEditorJsonData;
+	}
+
+	public void setNodeEditorJsonData(String nodeEditorJsonData) {
+		this.nodeEditorJsonData = nodeEditorJsonData;
 	}
 
 	public Long getId() {

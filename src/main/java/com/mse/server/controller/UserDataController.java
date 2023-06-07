@@ -77,7 +77,7 @@ public class UserDataController {
 		List<DeployedMap> dms = new ArrayList<DeployedMap>();
 		for(DungeonMap map : maps) {
 			if(map.getDeployed() == true) {
-				DeployedMap dm = new DeployedMap(map.getId(), map.getName(), map.getCreatedTime(), map.getUserId());
+				DeployedMap dm = new DeployedMap(map.getId(), map.getName(), map.getCreatedTime(), map.getUserId(), map.getNodeEditorJsonData());
 				dms.add(dm);
 			}
 		}
@@ -93,7 +93,7 @@ public class UserDataController {
 		List<DungeonMap> maps = mapRepo.findByUserId(id);
 		List<CreatorMap> cms = new ArrayList<CreatorMap>();
 		for(DungeonMap map : maps) {
-			CreatorMap cm = new CreatorMap(map.getId(), map.getName(), map.getCreatedTime());
+			CreatorMap cm = new CreatorMap(map.getId(), map.getName(), map.getCreatedTime(), map.getNodeEditorJsonData());
 			cms.add(cm);
 		}
 		String dl = gson.toJson(cms);

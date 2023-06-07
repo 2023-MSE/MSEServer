@@ -5,13 +5,23 @@ public class DeployedMap {
 	private String name;
 	private String createdTime;
 	private long userId;
+	private String nodeEditorJsonData;
 	
-	public DeployedMap(Long id, String name, String createdTime, long userId) {
+	public DeployedMap(Long id, String name, String createdTime, long userId, String nodeEditorJsonData) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.createdTime = createdTime;
 		this.userId = userId;
+		this.nodeEditorJsonData = nodeEditorJsonData;
+	}
+
+	public String getNodeEditorJsonData() {
+		return nodeEditorJsonData;
+	}
+
+	public void setNodeEditorJsonData(String nodeEditorJsonData) {
+		this.nodeEditorJsonData = nodeEditorJsonData;
 	}
 
 	public Long getId() {
