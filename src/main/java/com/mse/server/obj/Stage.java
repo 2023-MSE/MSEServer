@@ -28,7 +28,7 @@ public class Stage {
 	@Column(name="music_name")
 	@Expose
 	private String musicName;
-	@Column(name="music_bytes_data")
+	@Column(name="music_bytes_data", length=50000)
 	@Expose
 	private byte[] musicBytesData;
 	@Expose

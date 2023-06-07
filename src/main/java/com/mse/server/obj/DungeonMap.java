@@ -14,7 +14,7 @@ public class DungeonMap {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Expose
 	private Long id;
-	@Column(name="node_editor_json_data")
+	@Column(name="node_editor_json_data", length=50000)
 	@Expose
 	private String nodeEditorJsonData;
 	@Expose
