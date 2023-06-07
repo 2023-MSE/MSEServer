@@ -13,6 +13,9 @@ public class Stage {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Expose
 	private Long id;
+	@Column(name="identifier_id")
+	@Expose
+	private Long identifierId;
 	@Column(name="next_stage")
 	@Expose
 	private List<Long> nextStage;
@@ -28,7 +31,7 @@ public class Stage {
 	@Column(name="music_name")
 	@Expose
 	private String musicName;
-	@Column(name="music_bytes_data", length=50000)
+	@Column(name="music_bytes_data", length=5000000)
 	@Expose
 	private byte[] musicBytesData;
 	@Expose
@@ -43,16 +46,18 @@ public class Stage {
 	
 	public Stage() { }
 
-	public Stage(List<Long> nextStage, int stageType, String specificTypeInfo) {
+	public Stage(List<Long> nextStage, long identifierId, int stageType, String specificTypeInfo) {
 		super();
 		this.nextStage = nextStage;
+		this.identifierId = identifierId;
 		this.stageType = stageType;
 		this.specificTypeInfo = specificTypeInfo;
 	}
 
-	public Stage(Long id, List<Long> nextStage, int stageType, String specificTypeInfo, DungeonMap mowner) {
+	public Stage(Long id, long identifierId, List<Long> nextStage, int stageType, String specificTypeInfo, DungeonMap mowner) {
 		super();
 		this.id = id;
+		this.identifierId = identifierId;
 		this.nextStage = nextStage;
 		this.stageType = stageType;
 		this.specificTypeInfo = specificTypeInfo;
@@ -61,10 +66,11 @@ public class Stage {
 	
 	
 
-	public Stage(Long id, List<Long> nextStage, int stageType, String specificTypeInfo, short limitForElements, 
+	public Stage(Long id, long identifierId, List<Long> nextStage, int stageType, String specificTypeInfo, short limitForElements, 
 			String musicName, byte[] musicBytesData, List<Integer> elements, long mapId) {
 		super();
 		this.id = id;
+		this.identifierId = identifierId;
 		this.nextStage = nextStage;
 		this.stageType = stageType;
 		this.specificTypeInfo = specificTypeInfo;
@@ -95,6 +101,10 @@ public class Stage {
 		return stageType;
 	}
 
+	public long getIdentifierId () {
+		return identifierId;
+	}
+	
 	public void setStageType(int stageType) {
 		this.stageType = stageType;
 	}
@@ -105,6 +115,10 @@ public class Stage {
 
 	public void setSpecificTypeInfo(String specificTypeInfo) {
 		this.specificTypeInfo = specificTypeInfo;
+	}
+	
+	public void setIdentifierId (long inputIdentifierId) {
+		this.identifierId = inputIdentifierId;
 	}
 	
 	public DungeonMap getMowner() {

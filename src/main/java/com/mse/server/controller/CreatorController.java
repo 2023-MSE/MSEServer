@@ -51,7 +51,7 @@ public class CreatorController {
 		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();
 		List<Stage> stgs = mapRepo.findById(map.getId()).get().getStages();
 		for(Stage stg: m.getStages()) {
-			stg = new Stage(stg.getId(), stg.getNextStage(), stg.getStageType(), stg.getSpecificTypeInfo(), stg.getLimitForElements(), stg.getMusicName(), stg.getMusicBytesData(), stg.getElements(), map.getId());
+			stg = new Stage(stg.getId(), stg.getIdentifierId(), stg.getNextStage(), stg.getStageType(), stg.getSpecificTypeInfo(), stg.getLimitForElements(), stg.getMusicName(), stg.getMusicBytesData(), stg.getElements(), map.getId());
 			stg.setMowner(map);
 			stg = stageRepo.save(stg);
 			stgs.add(stg);
@@ -102,22 +102,49 @@ public class CreatorController {
 			jObject.put("success", false);
 			return jObject.toString();
 		}
+		
 		UserData u = userRepo.findById(m.getUserId()).get();
+		DungeonMap mm = mapRepo.getById(m.getId());
+		
+		for(Stage stg : mm.getStages()) {
+			stageRepo.delete(stg);
+			mm.getStages().remove(stg);
+		}
+		
 		List<Stage> stgs = new  ArrayList<Stage>();
 		for(Stage stg: m.getStages()) {
-			stg.setMapId(m.getId());
+			stg = new Stage(stg.getId(), stg.getIdentifierId(), stg.getNextStage(), stg.getStageType(), stg.getSpecificTypeInfo(), stg.getLimitForElements(), stg.getMusicName(), stg.getMusicBytesData(), stg.getElements(), m.getId());
+			stg.setMowner(mm);
+			// stg = stageRepo.save(stg);
 			stgs.add(stg);
+			System.out.println("Added");
 		}
-		DungeonMap mm = mapRepo.getById(m.getId());
+		
+		mm.setNodeEditorJsonData(m.getNodeEditorJsonData());
+		mm.setStages(stgs);
+		// Repository 에서 변수만 가져와서 바꿔줘도, 해당 변경사항이 Repository 에 반영되느냐 아니냐의 문제. => 안 되네. => 되네
+		
+/*		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();	
+		maps.set(m.getId().intValue()-1, mm);
+		u.setMaps(maps);
+		userRepo.save(u);*/
+		
+		jObject.put("success", true);
+		return jObject.toString();
+		
+		
+		/*
 		mm = new DungeonMap(m.getId(), m.getName(), m.getCreatedTime(), m.getDeployed(), m.getOwner(), m.getStages(), m.getUserId(), m.getNodeEditorJsonData());
 		for(Stage s : stgs) {
 			Stage stg = stageRepo.getById(s.getId());
 			stg = s;
-			stgs.set(s.getId().intValue()-1, stg);
+			stgs.set(s.getId().intValue()-1, stg); // 여기서 오류 발생함.
 		}
 		mm.setStages(stgs);
+		
+		
 		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();		
-		maps.set(m.getId().intValue()-1, mm);
+		maps.set(m.getId().intValue()-1, mm); // 이 부분에서 오류 발생함.
 		u.setMaps(maps);
 		userRepo.save(u);
 //		System.out.println(userRepo.findById(u.getId()).get());
@@ -127,6 +154,7 @@ public class CreatorController {
 //		System.out.println(stageRepo.findAll());
 		jObject.put("success", true);
 		return jObject.toString();
+		*/
 	}
 	
 	// deleteMap
