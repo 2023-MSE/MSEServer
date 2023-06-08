@@ -106,28 +106,36 @@ public class CreatorController {
 		UserData u = userRepo.findById(m.getUserId()).get();
 		DungeonMap mm = mapRepo.getById(m.getId());
 		
-		for(Stage stg : mm.getStages()) {
-			stageRepo.delete(stg);
-			mm.getStages().remove(stg);
+		List<Stage> stagesToRemove = new ArrayList<>();
+		for (Stage stg : mm.getStages()) {
+		    stagesToRemove.add(stageRepo.getById(stg.getId())); // 해당 요소에 대한 추가 작업 수행
 		}
+		mm.getStages().removeAll(stagesToRemove);
+		
+		/*for(Stage stg : mm.getStages()) {
+			mm.getStages().remove(stg);
+			stageRepo.delete(stageRepo.getById(stg.getId()));
+		}*/
 		
 		List<Stage> stgs = new  ArrayList<Stage>();
 		for(Stage stg: m.getStages()) {
 			stg = new Stage(stg.getId(), stg.getIdentifierId(), stg.getNextStage(), stg.getStageType(), stg.getSpecificTypeInfo(), stg.getLimitForElements(), stg.getMusicName(), stg.getMusicBytesData(), stg.getElements(), m.getId());
 			stg.setMowner(mm);
-			// stg = stageRepo.save(stg);
+			stg = stageRepo.save(stg); 
 			stgs.add(stg);
 			System.out.println("Added");
 		}
 		
 		mm.setNodeEditorJsonData(m.getNodeEditorJsonData());
 		mm.setStages(stgs);
-		// Repository 에서 변수만 가져와서 바꿔줘도, 해당 변경사항이 Repository 에 반영되느냐 아니냐의 문제. => 안 되네. => 되네
+		// Repository 에서 변수만 가져와서 바꿔줘도, 해당 변경사항이 Repository 에 반영되느냐 아니냐의 문제. => 안 되네. => 되네. 생각보다 훨씬 유도리가 잇었구나.
 		
-/*		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();	
+		mapRepo.save(mm);
+		
+		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();	
 		maps.set(m.getId().intValue()-1, mm);
 		u.setMaps(maps);
-		userRepo.save(u);*/
+		userRepo.save(u);
 		
 		jObject.put("success", true);
 		return jObject.toString();
