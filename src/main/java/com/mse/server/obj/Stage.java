@@ -33,7 +33,7 @@ public class Stage {
 	private String musicName;
 	@Column(name="music_bytes_data", length=5000000)
 	@Expose
-	private byte[] musicBytesData;
+	private String musicBytesData;
 	@Expose
 	private List<Integer> elements;
 	@Column(name="map_id")
@@ -67,7 +67,7 @@ public class Stage {
 	
 
 	public Stage(Long id, long identifierId, List<Long> nextStage, int stageType, String specificTypeInfo, short limitForElements, 
-			String musicName, byte[] musicBytesData, List<Integer> elements, long mapId) {
+			String musicName, String musicBytesData, List<Integer> elements, long mapId) {
 		super();
 		this.id = id;
 		this.identifierId = identifierId;
@@ -145,11 +145,11 @@ public class Stage {
 		this.musicName = musicName;
 	}
 
-	public byte[] getMusicBytesData() {
+	public String getMusicBytesData() {
 		return musicBytesData;
 	}
 
-	public void setMusicBytesData(byte[] musicBytesData) {
+	public void setMusicBytesData(String musicBytesData) {
 		this.musicBytesData = musicBytesData;
 	}
 
