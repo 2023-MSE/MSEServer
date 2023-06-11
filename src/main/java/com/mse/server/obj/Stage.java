@@ -39,6 +39,9 @@ public class Stage {
 	@Column(name="map_id")
 	@Expose
 	private long mapId;
+	@Column(name="bpm")
+	@Expose
+	private int bpm;
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)
 	@JoinColumn(name="mowner_id")
@@ -67,7 +70,7 @@ public class Stage {
 	
 
 	public Stage(Long id, long identifierId, List<Long> nextStage, int stageType, String specificTypeInfo, short limitForElements, 
-			String musicName, String musicBytesData, List<Integer> elements, long mapId) {
+			String musicName, String musicBytesData, List<Integer> elements, long mapId, int bpm) {
 		super();
 		this.id = id;
 		this.identifierId = identifierId;
@@ -79,6 +82,7 @@ public class Stage {
 		this.musicBytesData = musicBytesData;
 		this.elements = elements;
 		this.mapId = mapId;
+		this.bpm = bpm;
 	}
 	
 	public short getLimitForElements() {
@@ -167,6 +171,14 @@ public class Stage {
 
 	public void setMapId(long mapId) {
 		this.mapId = mapId;
+	}
+	
+	public int getBpm () {
+		return bpm;
+	}
+	
+	public void setBpm (int inputBpm) {
+		this.bpm = inputBpm;
 	}
 
 	@Override

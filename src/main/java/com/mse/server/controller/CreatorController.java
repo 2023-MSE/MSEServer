@@ -51,7 +51,7 @@ public class CreatorController {
 		List<DungeonMap> maps = userRepo.findById(u.getId()).get().getMaps();
 		List<Stage> stgs = mapRepo.findById(map.getId()).get().getStages();
 		for(Stage stg: m.getStages()) {
-			stg = new Stage(stg.getId(), stg.getIdentifierId(), stg.getNextStage(), stg.getStageType(), stg.getSpecificTypeInfo(), stg.getLimitForElements(), stg.getMusicName(), stg.getMusicBytesData(), stg.getElements(), map.getId());
+			stg = new Stage(stg.getId(), stg.getIdentifierId(), stg.getNextStage(), stg.getStageType(), stg.getSpecificTypeInfo(), stg.getLimitForElements(), stg.getMusicName(), stg.getMusicBytesData(), stg.getElements(), map.getId(), stg.getBpm());
 			stg.setMowner(map);
 			stg = stageRepo.save(stg);
 			stgs.add(stg);
@@ -119,7 +119,7 @@ public class CreatorController {
 		
 		List<Stage> stgs = new  ArrayList<Stage>();
 		for(Stage stg: m.getStages()) {
-			stg = new Stage(stg.getId(), stg.getIdentifierId(), stg.getNextStage(), stg.getStageType(), stg.getSpecificTypeInfo(), stg.getLimitForElements(), stg.getMusicName(), stg.getMusicBytesData(), stg.getElements(), m.getId());
+			stg = new Stage(stg.getId(), stg.getIdentifierId(), stg.getNextStage(), stg.getStageType(), stg.getSpecificTypeInfo(), stg.getLimitForElements(), stg.getMusicName(), stg.getMusicBytesData(), stg.getElements(), m.getId(), stg.getBpm());
 			stg.setMowner(mm);
 			stg = stageRepo.save(stg); 
 			stgs.add(stg);
